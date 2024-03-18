@@ -71,7 +71,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className='flex justify-between items-center fixed z-10 w-full py-5 px-8 text-sm font-light'>
+    <nav className='flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light'>
       {/*Menu Left */}
       <ul className='flex items-center gap-4'>
         {menuLeft.map(menu => (
