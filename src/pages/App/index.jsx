@@ -8,6 +8,7 @@ import NotFound from "../NotFound/index.jsx";
 import Navbar from "../../componets/Navbar/index.jsx";
 
 import '../../App.css'
+import Layout from "../../componets/Layout/index.jsx";
 
 /**
  * Routes
@@ -47,7 +48,9 @@ const AppRoutes = () => {
 function App() {
   return <BrowserRouter>
     <Navbar/>
-    {/*<AppRoutes/>*/}
+    <Layout>
+      <AppRoutes/>
+    </Layout>
   </BrowserRouter>
 }
 
