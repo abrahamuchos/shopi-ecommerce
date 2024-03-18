@@ -76,7 +76,7 @@ export default function Navbar() {
       <ul className='flex items-center gap-4'>
         {menuLeft.map(menu => (
           <li key={menu.name} className={menu.className}>
-            <NavLink to={menu.to}>
+            <NavLink to={menu.to} className={({isActive}) => isActive ? activeStyle : '' }>
               {menu.name}
             </NavLink>
           </li>
