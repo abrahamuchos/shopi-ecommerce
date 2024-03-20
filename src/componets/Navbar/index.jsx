@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from "react-router-dom";
+import { ShoppingCartContext } from "../../context/index.jsx";
 
 export default function Navbar() {
+  const {count} = useContext(ShoppingCartContext);
   const activeStyle = 'underline underline-offset-4'
   const menuLeft = [
     {
@@ -63,7 +65,7 @@ export default function Navbar() {
       className: ''
     },
     {
-      name: 'Cart 0',
+      name: `Cart ${count}`,
       to: '/cart',
       className: ''
     }
