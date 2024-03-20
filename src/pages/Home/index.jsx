@@ -32,7 +32,6 @@ export default function Home() {
       try{
         const products = await getAllProducts();
         setProducts(products);
-        console.log('Products>>', products)
         setIsLoading(false);
       }catch (e) {
         console.error(e);

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { ShoppingCartContext } from "../../context/index.jsx";
 
 /**
  *
@@ -7,8 +8,12 @@ import React, { useState } from 'react';
  * @constructor
  */
 export default function Card({product}) {
-  const [imageError, setImageError] = useState(/**@type{boolean} imageError */false)
+  const [imageError, setImageError] = useState(/**@type{boolean} imageError */false);
+  const {setCount} = useContext(ShoppingCartContext);
 
+  /**
+   * Validate if image has error
+   */
   const handleImageError = () => {
     setImageError(true);
   }
@@ -29,7 +34,10 @@ export default function Card({product}) {
           className='w-full h-full object-cover rounded-lg'
           onError={handleImageError}
         />
-        <div className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'>
+        <div
+          className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
+          onClick={() => setCount(prev => prev + 1)}
+          >
           +
         </div>
       </figure>
