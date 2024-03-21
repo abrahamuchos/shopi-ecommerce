@@ -2,7 +2,17 @@ import React, { createContext, useState } from 'react';
 
 /**
  * Cart context
- * @type {React.Context<{count,setCount,isProductDetailOpen,openProductDetail,closeProductDetail,productToShow,setProductToShow}>}
+ * @type {React.Context<{
+ *  count,
+ *  setCount,
+ *  isProductDetailOpen,
+ *  openProductDetail,
+ *  closeProductDetail,
+ *  productToShow,
+ *  setProductToShow,
+ *  cartItems
+ *  setCartItems
+ *  }>}
  */
 export const ShoppingCartContext = createContext();
 
@@ -21,6 +31,7 @@ export function ShoppingCartProvider({children}) {
     description: '',
     images: []
   });
+  const [cartItems, setCartItems] = useState(/**@type{Array<productObject|null>} cartItems*/ []);
 
  const openProductDetail = () => setIsProductDetailOpen(true);
  const closeProductDetail = () => setIsProductDetailOpen(false);
@@ -35,7 +46,9 @@ export function ShoppingCartProvider({children}) {
         openProductDetail,
         closeProductDetail,
         productToShow,
-        setProductToShow
+        setProductToShow,
+        cartItems,
+        setCartItems
       }}
     >
       {children}
