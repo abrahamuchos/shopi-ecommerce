@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from "react-router-dom";
 import { ShoppingCartContext } from "../../context/index.jsx";
+import { ShoppingBagIcon, ShoppingCartIcon } from "@heroicons/react/24/outline/index.js";
 
 export default function Navbar() {
   const {count} = useContext(ShoppingCartContext);
@@ -65,7 +66,9 @@ export default function Navbar() {
       className: ''
     },
     {
-      name: `Cart ${count}`,
+      name: <span className='flex justify-center items-center'>
+        <ShoppingBagIcon className='w-5 h-5'/>{count}
+      </span>,
       to: '/cart',
       className: ''
     }
