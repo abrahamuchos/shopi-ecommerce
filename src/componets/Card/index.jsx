@@ -11,7 +11,7 @@ import { PlusIcon } from "@heroicons/react/24/outline/index.js";
  */
 export default function Card({product}) {
   const [imageError, setImageError] = useState(/**@type{boolean} imageError */false);
-  const {setCount} = useContext(ShoppingCartContext);
+  const {setCount, openProductDetail, setProductToShow} = useContext(ShoppingCartContext);
 
   /**
    * Validate if image has error
@@ -20,8 +20,20 @@ export default function Card({product}) {
     setImageError(true);
   }
 
+  /**
+   * Set product to show
+   * @param {productObject} product
+   */
+  const showProduct = (product) => {
+    openProductDetail();
+    setProductToShow(product);
+  }
+
   return (
-    <div className='bg-white cursor-pointer w-56 h-60 rounded-lg'>
+    <div
+      className='bg-white cursor-pointer w-56 h-60 rounded-lg'
+      onClick={()=> showProduct(product)}
+    >
       <figure className='relative mb-2 w-full h-4/5'>
         <span className='absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5'>
           {product.category?.name ?? 'N/A'}

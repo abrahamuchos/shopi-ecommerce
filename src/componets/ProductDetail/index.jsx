@@ -1,19 +1,39 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ShoppingCartContext } from "../../context/index.jsx";
 
-import  './style.css';
+import './style.css';
 import { XMarkIcon } from "@heroicons/react/24/outline/index.js";
 
 
 export default function ProductDetail() {
+  const {isProductDetailOpen, closeProductDetail, productToShow} = useContext(ShoppingCartContext);
+
+  console.log('ProductShow>>', productToShow);
 
   return (
-    <aside className='product-detail flex flex-col fixed right-0 border border-black bg-white'>
+    <aside
+      className={`${isProductDetailOpen ? 'flex' : 'hidden'} product-detail flex flex-col fixed right-0 border border-black bg-white`}
+    >
       <div className='flex justify-between items-center p-6'>
         <h2 className='font-medium text-xl'>Detail</h2>
         <div>
-          <XMarkIcon className='h-6 w-6 text-black'/>
+          <XMarkIcon className='h-6 w-6 text-black cursor-pointer' onClick={() => closeProductDetail()}/>
         </div>
       </div>
+
+      <figure className='px-6'>
+        <img
+          className='w-full rounded-lg'
+          src={productToShow.images.length ? productToShow.images[0] : 'https://picsum.photos/seed/picsum/200/300'}
+          alt={productToShow.title}
+          referrerPolicy="no-referrer"
+        />
+        <p className='flex flex-col'>
+          <span className='font-medium text-2xl mb-2'>${productToShow.price}</span>
+          <span className='font-medium text-md'>{productToShow.title}</span>
+          <span className='font-light text-sm'>{productToShow.description}</span>
+        </p>
+      </figure>
     </aside>
   );
 }
