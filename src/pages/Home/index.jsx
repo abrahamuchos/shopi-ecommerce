@@ -21,6 +21,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from "../../componets/Card/index.jsx";
 import ErrorNotification from "../../componets/ErrorNotification/index.jsx";
+import ProductDetail from "../../componets/ProductDetail/index.jsx";
 
 export default function Home() {
   const [products, setProducts] = useState(/**@type {Array<productObject|null>} products*/[]);
@@ -61,6 +62,7 @@ export default function Home() {
           {products.map(product =>
             <Card key={product.id} product={product}/>
           )}
+          <ProductDetail/>
         </section>
       }
       {error ? <ErrorNotification message={error}/> : ''}
