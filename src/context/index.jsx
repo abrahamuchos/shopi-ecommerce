@@ -11,7 +11,10 @@ import React, { createContext, useState } from 'react';
  *  productToShow,
  *  setProductToShow,
  *  cartItems
- *  setCartItems
+ *  setCartItems,
+ *  isCheckoutSideMenuOpen,
+ *  openCheckoutSideMenu,
+ *  closeCheckoutSideMenu
  *  }>}
  */
 export const ShoppingCartContext = createContext();
@@ -25,6 +28,7 @@ export const ShoppingCartContext = createContext();
 export function ShoppingCartProvider({children}) {
   const [count, setCount] = useState(/**@type{number} count - Cart items */0);
   const [isProductDetailOpen, setIsProductDetailOpen] = useState( /**@type{boolean} isProductDetailOpen */false);
+  const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState( /**@type{boolean}  isCheckoutSideMenuOpen*/false)
   const [productToShow, setProductToShow] = useState(/**@type{productObject} productToShow*/{
     title: '',
     price: '',
@@ -33,11 +37,13 @@ export function ShoppingCartProvider({children}) {
   });
   const [cartItems, setCartItems] = useState(/**@type{Array<productObject|null>} cartItems*/ []);
 
- const openProductDetail = () => setIsProductDetailOpen(true);
- const closeProductDetail = () => setIsProductDetailOpen(false);
+  const openProductDetail = () => setIsProductDetailOpen(true);
+  const closeProductDetail = () => setIsProductDetailOpen(false);
+  const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
+  const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
 
 
-  return(
+  return (
     <ShoppingCartContext.Provider
       value={{
         count,
@@ -48,7 +54,10 @@ export function ShoppingCartProvider({children}) {
         productToShow,
         setProductToShow,
         cartItems,
-        setCartItems
+        setCartItems,
+        isCheckoutSideMenuOpen,
+        openCheckoutSideMenu,
+        closeCheckoutSideMenu
       }}
     >
       {children}
