@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { ShoppingCartContext } from "../../context/index.jsx";
 
-import { PlusIcon } from "@heroicons/react/24/outline/index.js";
+import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline/index.js";
 
 /**
  *
@@ -11,7 +11,16 @@ import { PlusIcon } from "@heroicons/react/24/outline/index.js";
  */
 export default function Card({product}) {
   const [imageError, setImageError] = useState(/**@type{boolean} imageError */false);
-  const {setCount, openProductDetail, setProductToShow, setCartItems} = useContext(ShoppingCartContext);
+  const {
+    setCount,
+    openProductDetail,
+    setProductToShow,
+    cartItems,
+    setCartItems,
+    openCheckoutSideMenu,
+    closeCheckoutSideMenu,
+    closeProductDetail
+  } = useContext(ShoppingCartContext);
 
   /**
    * Validate if image has error
@@ -25,20 +34,25 @@ export default function Card({product}) {
    * @param {productObject} product
    */
   const showProduct = (product) => {
+    closeCheckoutSideMenu();
     openProductDetail();
     setProductToShow(product);
   }
 
   /**
    * Add product to cart and increment count
+   * @param {MouseEvent<HTMLDivElement>} e
    * @param {productObject} product
    */
-  const addProductToCart = (product) => {
+  const addProductToCart = (e, product) => {
+    e.stopPropagation();
     setCount(prev => prev + 1);
     setCartItems(prev => [
       ...prev,
       product
     ]);
+    closeProductDetail();
+    openCheckoutSideMenu();
   }
 
   return (
@@ -60,12 +74,22 @@ export default function Card({product}) {
           className='w-full h-full object-cover rounded-lg'
           onError={handleImageError}
         />
-        <div
-          className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
-          onClick={() => addProductToCart(product)}
-        >
-          <PlusIcon className='w-6 h-6 text-black'/>
-        </div>
+        {/*Icon Card */}
+        {cartItems.find(item => item.id === product.id)
+          ? <div
+            className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
+          >
+            <CheckIcon className='w-6 h-6 text-black'/>
+          </div>
+
+          : <div
+            className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
+            onClick={(e) => addProductToCart(e, product)}
+          >
+            <PlusIcon className='w-6 h-6 text-black'/>
+          </div>
+        }
+        {/*Enb Icon Card */}
       </figure>
       <p className='flex justify-between'>
         <span className='text-sm font-light'>{product.title}</span>
