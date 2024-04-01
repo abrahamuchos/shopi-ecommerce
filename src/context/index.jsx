@@ -1,3 +1,11 @@
+/**
+ * Order Object
+ * @typedef orderObject
+ * @property {string} date
+ * @property {Array<productObject|null>} products
+ * @property {number} totalProducts
+ * @property {number} totalPrice
+ */
 import React, { createContext, useState } from 'react';
 
 /**
@@ -14,7 +22,9 @@ import React, { createContext, useState } from 'react';
  *  setCartItems,
  *  isCheckoutSideMenuOpen,
  *  openCheckoutSideMenu,
- *  closeCheckoutSideMenu
+ *  closeCheckoutSideMenu,
+ *  orders,
+ *  setOrders
  *  }>}
  */
 export const ShoppingCartContext = createContext();
@@ -36,6 +46,7 @@ export function ShoppingCartProvider({children}) {
     images: []
   });
   const [cartItems, setCartItems] = useState(/**@type{Array<productObject|null>} cartItems*/ []);
+  const [orders, setOrders] = useState(/**@type{Array<orderObject>} orders */[])
 
   const openProductDetail = () => setIsProductDetailOpen(true);
   const closeProductDetail = () => setIsProductDetailOpen(false);
@@ -57,7 +68,9 @@ export function ShoppingCartProvider({children}) {
         setCartItems,
         isCheckoutSideMenuOpen,
         openCheckoutSideMenu,
-        closeCheckoutSideMenu
+        closeCheckoutSideMenu,
+        orders,
+        setOrders
       }}
     >
       {children}
