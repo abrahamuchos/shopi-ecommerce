@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../../context/index.jsx";
 import OrderCard from "../OrderCard/index.jsx";
 import { totalPrice } from "../../utils/index.jsx";
@@ -7,7 +8,7 @@ import './style.css';
 import { XMarkIcon } from "@heroicons/react/24/outline/index.js";
 
 export default function CheckoutSideMenu() {
-  const {isCheckoutSideMenuOpen, closeCheckoutSideMenu, cartItems, setCartItems} = useContext(ShoppingCartContext);
+  const {isCheckoutSideMenuOpen, closeCheckoutSideMenu, cartItems, setCartItems, setOrders} = useContext(ShoppingCartContext);
 
   /**
    * Delete items to cart
@@ -17,6 +18,23 @@ export default function CheckoutSideMenu() {
     const filteredProducts = cartItems.filter(item => item.id !== id);
     setCartItems(filteredProducts);
   }
+
+  /**
+   * Add checkout products to orders
+   */
+  const handleCheckout = () => {
+    const orderToAdd = {
+      date: new Date(),
+      products: cartItems,
+      totalProducts: cartItems.length,
+      totalPrice: totalPrice(cartItems),
+    }
+    setOrders(prevOrder => [
+      ...prevOrder, orderToAdd
+    ]);
+    setCartItems([]);
+  }
+
 
   return (
     <aside
@@ -42,11 +60,19 @@ export default function CheckoutSideMenu() {
       {/* End Cart Items */}
 
       {/*Total*/}
-      <div className="px-6">
-        <p className='flex justify-between items-center'>
+      <div className="px-6 mb-6">
+        <p className='flex justify-between items-center mb-4'>
           <span className='font-semibold'>Total</span>
           <span className='font-medium text-2xl'>${totalPrice(cartItems)}</span>
         </p>
+        <Link to='my-orders/last'>
+          <button
+            className='w-full bg-black py-3 text-white rounded-md'
+            onClick={() => handleCheckout()}>
+            Checkout
+          </button>
+        </Link>
+
       </div>
       {/*End Total*/}
     </aside>
