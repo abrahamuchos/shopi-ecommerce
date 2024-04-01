@@ -11,7 +11,7 @@ export default function MyOrders() {
   return (
     <>
       <div className='flex w-80 items-center justify-center'>
-        <h1>My orders</h1>
+        <h1 className='font-medium text-xl'>My orders</h1>
       </div>
       {orders.map((order, index) =>
         <Link to={`/my-orders/${index}`} key={index}>

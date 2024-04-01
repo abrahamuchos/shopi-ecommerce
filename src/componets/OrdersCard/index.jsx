@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatDateToString } from "../../utils/index.jsx";
+import { ChevronRightIcon } from "@heroicons/react/24/outline/index.js";
 
 /**
  *
@@ -13,12 +14,15 @@ export default function OrdersCard({ date, totalPrice, totalProducts}) {
 
 
   return (
-    <div className='flex justify-between items-center px-6 mt-2 mb-6 border border-black'>
-      <p>
-        <span className='px-1'>{`Date: ${formatDateToString(date)}`}</span>
-        <span className='px-3'>{`Qty: ${totalProducts}`}</span>
-        <span className='px-3'>{`Total: $${totalPrice}`}</span>
-      </p>
+    <div className='flex justify-between items-center p-4 mt-2 mb-6 border border-black rounded-lg'>
+      <div className='flex justify-between items-center'>
+        <p className='flex flex-col'>
+          <span>{`Date: ${formatDateToString(date)}`}</span>
+          <span>{`Qty: ${totalProducts}`}</span>
+        </p>
+        <span className='ml-6 font-medium text-xl'>{`Total: $${totalPrice}`}</span>
+      </div>
+      <ChevronRightIcon className='h-6 w-6 text-black cursor-pointer ml-3'/>
     </div>
   );
 }
