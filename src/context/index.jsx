@@ -60,18 +60,20 @@ export function ShoppingCartProvider({children}) {
   const [searchByCategory, setSearchByCategory] = useState(/**@type {string} searchByCategory*/'')
 
   useEffect(() => {
-    if(searchByTitle){
-      const filteredItems = filteredItemsByTitle(products, searchByTitle);
-      setFilteredItems(filteredItems);
-    }
-  }, [products, searchByTitle]);
+    if(searchByCategory && searchByTitle) {
+      const itemsByCategory = filteredItemsByCategory(products, searchByCategory);
+      const itemsByTitle = filteredItemsByTitle(itemsByCategory, searchByTitle);
+      setFilteredItems(itemsByTitle);
 
-  useEffect(() => {
-    if(searchByCategory){
-      const filteredItems = filteredItemsByCategory(products, searchByCategory);
-      setFilteredItems(filteredItems);
+    }else if(searchByCategory){
+      const itemsByCategory = filteredItemsByCategory(products, searchByCategory);
+      setFilteredItems(itemsByCategory);
+
+    }else if(searchByTitle){
+      const itemsByTitle = filteredItemsByTitle(products, searchByTitle);
+      setFilteredItems(itemsByTitle);
     }
-  }, [products, searchByCategory]);
+  }, [products, searchByTitle, searchByCategory]);
 
   const openProductDetail = () => setIsProductDetailOpen(true);
   const closeProductDetail = () => setIsProductDetailOpen(false);
