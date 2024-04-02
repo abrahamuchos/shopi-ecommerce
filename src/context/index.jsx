@@ -6,7 +6,7 @@
  * @property {number} totalProducts
  * @property {number} totalPrice
  */
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 /**
  * Cart context
@@ -24,7 +24,14 @@ import React, { createContext, useState } from 'react';
  *  openCheckoutSideMenu,
  *  closeCheckoutSideMenu,
  *  orders,
- *  setOrders
+ *  setOrders,
+ *  products,
+ *  setProducts
+ *  searchByTitle,
+ *  setSearchByTitle,
+ *  filteredItems
+ *  searchByCategory,
+ *  setSearchByCategory
  *  }>}
  */
 export const ShoppingCartContext = createContext();
@@ -46,12 +53,49 @@ export function ShoppingCartProvider({children}) {
     images: []
   });
   const [cartItems, setCartItems] = useState(/**@type{Array<productObject|null>} cartItems*/ []);
-  const [orders, setOrders] = useState(/**@type{Array<orderObject>} orders */[])
+  const [orders, setOrders] = useState(/**@type{Array<orderObject>} orders */[]);
+  const [products, setProducts] = useState(/**@type {Array<productObject|null>} products*/[]);
+  const [searchByTitle, setSearchByTitle] = useState(/**@type{string} searchByTitle*/'');
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [searchByCategory, setSearchByCategory] = useState(/**@type {string} searchByCategory*/'')
+
+  useEffect(() => {
+    if(searchByTitle){
+      const filteredItems = filteredItemsByTitle(products, searchByTitle);
+      setFilteredItems(filteredItems);
+    }
+  }, [products, searchByTitle]);
+
+  useEffect(() => {
+    if(searchByCategory){
+      const filteredItems = filteredItemsByCategory(products, searchByCategory);
+      setFilteredItems(filteredItems);
+    }
+  }, [products, searchByCategory]);
 
   const openProductDetail = () => setIsProductDetailOpen(true);
   const closeProductDetail = () => setIsProductDetailOpen(false);
   const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
   const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
+  /**
+   * Filter products by title
+   * @param {Array<productObject|null>} items
+   * @param {string} search - Title to search
+   * @return {Array<productObject|null>}
+   */
+  const filteredItemsByTitle = (items, search) => {
+    return items?.filter(item => item.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+  }
+
+  /**
+   * Filtered products by category
+   * @param {Array<productObject|null>} items
+   * @param {string} category
+   * @return {Array<productObject|null>}
+   */
+  const filteredItemsByCategory = (items, category) => {
+    return items?.filter(item => item.category.name.toLocaleLowerCase().includes(category.toLocaleLowerCase()))
+  }
 
 
   return (
@@ -70,7 +114,14 @@ export function ShoppingCartProvider({children}) {
         openCheckoutSideMenu,
         closeCheckoutSideMenu,
         orders,
-        setOrders
+        setOrders,
+        products,
+        setProducts,
+        searchByTitle,
+        setSearchByTitle,
+        filteredItems,
+        searchByCategory,
+        setSearchByCategory
       }}
     >
       {children}
