@@ -4,43 +4,43 @@ import { ShoppingCartContext } from "../../context/index.jsx";
 import { ShoppingBagIcon, ShoppingCartIcon } from "@heroicons/react/24/outline/index.js";
 
 export default function Navbar() {
-  const {count} = useContext(ShoppingCartContext);
+  const {count, setSearchByCategory} = useContext(ShoppingCartContext);
   const activeStyle = 'underline underline-offset-4'
   const menuLeft = [
     {
       name: 'Shopi',
       to: '/',
-      className: 'font-semibold text-lg'
+      className: 'font-semibold text-lg',
     },
     {
       name: 'All',
       to: '/',
-      className: ''
+      className: '',
     },
     {
       name: 'Clothes',
-      to: '/clothes',
-      className: ''
+      to: '/category/clothes',
+      className: '',
     },
     {
       name: 'Electronics',
-      to: '/electronics',
-      className: ''
+      to: '/category/electronics',
+      className: '',
     },
     {
       name: 'Furniture',
-      to: '/furniture',
-      className: ''
+      to: '/category/furniture',
+      className: '',
     },
     {
       name: 'Toys',
-      to: '/toys',
-      className: ''
+      to: '/category/toys',
+      className: '',
     },
     {
       name: 'Others',
-      to: '/others',
-      className: ''
+      to: '/category/others',
+      className: '',
     },
   ];
 
@@ -72,7 +72,6 @@ export default function Navbar() {
       to: '/cart',
       className: ''
     }
-
   ];
 
   return (

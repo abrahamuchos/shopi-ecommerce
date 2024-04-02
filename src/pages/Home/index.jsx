@@ -15,16 +15,18 @@
  * @typedef categoryObject
  * @property {number} id
  * @property {string} name
- * @property {string} iamge - Url image
+ * @property {string} image - Url image
  */
-
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ShoppingCartContext } from "../../context/index.jsx";
 import Card from "../../componets/Card/index.jsx";
-import ErrorNotification from "../../componets/ErrorNotification/index.jsx";
 import ProductDetail from "../../componets/ProductDetail/index.jsx";
+import ErrorNotification from "../../componets/ErrorNotification/index.jsx";
+import { useParams } from "react-router-dom";
 
 export default function Home() {
-  const [products, setProducts] = useState(/**@type {Array<productObject|null>} products*/[]);
+  const {category} = useParams();
+  const {products , setProducts, searchByTitle, setSearchByTitle, filteredItems, searchByCategory ,setSearchByCategory} = useContext(ShoppingCartContext);
   const [isLoading, setIsLoading] = useState(/**@type{boolean} isLoading*/ true);
   const [error, setError] = useState(/**@type{boolean|string} */false);
 
@@ -43,6 +45,14 @@ export default function Home() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if(category){
+      setSearchByCategory(category);
+    }else{
+      setSearchByCategory('');
+    }
+  }, [category]);
+
   /**
    * Get all products
    * @return {Promise<Array<productObject>>}
@@ -55,15 +65,32 @@ export default function Home() {
     return await response.json();
   }
 
+
+
   return (
     <>
       {isLoading ? <p>Loading...</p>
-        : <section className='grid place-items-center gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full max-w-screen-xl'>
-          {products.map(product =>
-            <Card key={product.id} product={product}/>
-          )}
+        : <>
+          <div className='text-center mb-4'>
+            <h1 className="font-medium text-2xl">Exclusive Products</h1>
+          </div>
+          <input
+            type="text"
+            placeholder='Search product'
+            className='rounded-lg border border-black w-80 p-3 mb-5 focus:outline-none'
+            onChange={(e) => setSearchByTitle(e.target.value)}
+          />
+          <section className='grid place-items-center gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full max-w-screen-xl'>
+            { searchByTitle || searchByCategory
+              ? filteredItems.length
+                ? filteredItems.map(product =>  <Card key={product.id} product={product}/>)
+                : <div><p>We don&apos;t have anything :(</p></div>
+              : products.map(product => <Card key={product.id} product={product}/>)
+
+            }
           <ProductDetail/>
         </section>
+          </>
       }
       {error ? <ErrorNotification message={error}/> : ''}
     </>
